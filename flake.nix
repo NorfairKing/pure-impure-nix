@@ -45,6 +45,14 @@
       # 3. We set the output hash of the derivation to this hash.
       # 4. After 'building' the derivation, we remove the `$out` and replace it
       #    by the magic string.
+      #
+      #
+      #
+      # Why choose a different hash every time?
+      #
+      # Otherwise the new derivation is
+      # not rebuilt when the old derivation changes, only when the new
+      # derivation is removed from the cache.
       makePureImpure = drv: drv.overrideAttrs (old:
         let
           magicString = builtins.unsafeDiscardStringContext (builtins.substring 0 12 (baseNameOf drv.drvPath));
